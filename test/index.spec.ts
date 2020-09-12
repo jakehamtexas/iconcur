@@ -1,5 +1,19 @@
-import { assert } from 'chai';
+import { expect } from 'chai';
+import toSlices from '../src/toSlices';
 
-it('Hello test!', () => {
-  assert(2 + 2 === 4);
+describe('toSlices', () => {
+  it('should create m partitions of n specified size', () => {
+    // arrange
+    const expected = [
+      [null, null],
+      [null, null],
+    ];
+    const arr = new Array(4).fill(null);
+    // act
+
+    const actual = arr.reduce(...toSlices(2));
+    // assert
+
+    expect(actual).to.deep.eq(expected);
+  });
 });
