@@ -67,4 +67,16 @@ describe('toSlices', () => {
       );
     });
   });
+
+  it('should keep items in the same order after flattening', () => {
+    // arrange
+    const expected = [1, 2, 3, 4];
+    const arr = new Array(4).fill(null).map((_, i) => i + 1);
+    // act
+
+    const actual = arr.reduce(...toSlices(2)).flat();
+    // assert
+
+    expect(actual).to.deep.eq(expected);
+  });
 });

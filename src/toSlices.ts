@@ -15,11 +15,14 @@ export default <T>(
   if (!hasValidPartition(partitionSize))
     throw new Error('Invalid partition: partition must be a positive integer.');
   return [
-    (partitioned, current, index) => [
-      // eslint-disable-line
-      [current, current],
-      [current, current],
-    ],
+    (partitioned, current, index) => {
+      const insertionIndex = Math.floor(index / partitionSize);
+      const atIndex = partitioned[insertionIndex];
+      partitioned[insertionIndex] = !!atIndex
+        ? [...atIndex, current]
+        : [current];
+      return partitioned;
+    },
     [],
   ];
 };
