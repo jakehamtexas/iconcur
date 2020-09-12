@@ -53,5 +53,18 @@ describe('toSlices', () => {
         'Invalid partition: partition must be a positive integer.'
       );
     });
+
+    it('should be a number', () => {
+      // arrange
+      const arr = new Array(4).fill(null);
+      // act
+      //@ts-expect-error improper input type
+      const thrower = () => arr.reduce(...toSlices('1'));
+      // assert
+
+      expect(thrower).to.throw(
+        'Invalid partition: partition must be a positive integer.'
+      );
+    });
   });
 });
