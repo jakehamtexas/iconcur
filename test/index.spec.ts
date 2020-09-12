@@ -79,4 +79,16 @@ describe('toSlices', () => {
 
     expect(actual).to.deep.eq(expected);
   });
+
+  it('should return a partition of all items if a larger partition size than the length of the array is selected.', () => {
+    // arrange
+    const expected = [[null, null, null, null]];
+    const arr = new Array(4).fill(null);
+    // act
+
+    const actual = arr.reduce(...toSlices(100));
+    // assert
+
+    expect(actual).to.deep.eq(expected);
+  });
 });
