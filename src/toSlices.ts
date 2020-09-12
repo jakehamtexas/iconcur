@@ -1,5 +1,7 @@
 const isNotZero = (n: number) => n !== 0;
-const hasValidPartition = (n: number) => n % 1 === 0 && isNotZero(n);
+const isNotNegative = (n: number) => n > 0;
+const hasValidPartition = (n: number) =>
+  n % 1 === 0 && isNotZero(n) && isNotNegative(n);
 export default <T>(
   partitionSize: number
 ): [(partitioned: T[][], current: T, index: number) => T[][], T[][]] => {

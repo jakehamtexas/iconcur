@@ -41,5 +41,17 @@ describe('toSlices', () => {
         'Invalid partition: partition must be a positive integer.'
       );
     });
+
+    it('should not be negative', () => {
+      // arrange
+      const arr = new Array(4).fill(null);
+      // act
+      const thrower = () => arr.reduce(...toSlices(-1));
+      // assert
+
+      expect(thrower).to.throw(
+        'Invalid partition: partition must be a positive integer.'
+      );
+    });
   });
 });
