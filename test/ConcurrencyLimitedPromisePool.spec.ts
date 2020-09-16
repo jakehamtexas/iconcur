@@ -38,15 +38,10 @@ describe('ConcurrencyLimitedStream', () => {
     assert.closeTo(timeTakenInMs, longWaitInMs, longWaitInMs / 10);
   });
 
-  it('should cancel (promises may continue resolving)', async function () {
+  it('should cancel (pending promises will resolve)', async function () {
     const longWaitInMs = 10;
     // arrange
-    const promiseFns = [
-      longWaitInMs,
-      longWaitInMs / 3,
-      longWaitInMs / 3,
-      longWaitInMs / 3,
-    ].map(toSleepPromiseFn);
+    const promiseFns = [longWaitInMs, longWaitInMs].map(toSleepPromiseFn);
 
     // act
     const pool = new ConcurrencyLimitedBuilder<void>().pool(promiseFns, 2);
