@@ -1,13 +1,13 @@
 import { assert } from 'chai';
-import { getNow, toSleepPromiseFn } from './util';
+import { getNow, toSleepPromiseFn, seconds, range } from './util';
 import { ConcurrencyLimitedBuilder } from '../src/impl';
 import { PromiseFn } from '../src/type/PromiseFn';
 
 describe('ConcurrencyLimitedStream', () => {
   it('should continuously replenish concurrency pool while handling a single long running promise with concurrency limit of two', async function () {
-    const longWaitInMs = 3000;
-    this.timeout(longWaitInMs + 1000);
     // arrange
+    const longWaitInMs = seconds(0.2);
+    const additionalTests = 2;
     const toMinMaxPromiseFn = (sleep: PromiseFn<void>) => async () => {
       const start = getNow();
       await sleep();
@@ -15,9 +15,7 @@ describe('ConcurrencyLimitedStream', () => {
     };
     const promiseFns = [
       longWaitInMs,
-      longWaitInMs / 3,
-      longWaitInMs / 3,
-      longWaitInMs / 3,
+      ...range(additionalTests).map(() => longWaitInMs / additionalTests),
     ]
       .map(toSleepPromiseFn)
       .map(toMinMaxPromiseFn);

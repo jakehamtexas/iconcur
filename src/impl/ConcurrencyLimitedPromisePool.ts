@@ -20,16 +20,20 @@ export default class ConcurrencyLimitedPromisePool<
   async all(): Promise<T[]> {
     const pendings = [];
     const resolveds = [];
+    let generatorResult = this._mutableState.current;
+    const iteratorResult = await generatorResult;
+    if (!iteratorResult.done) {
+      pendings.push(iteratorResult.value);
+    }
     while (!this._isCanceled() && resolveds.length < this._numPromises) {
-      let generatorResult = this._mutableState.current;
       while (!this._isCanceled() && pendings.length < this._concurrencyLimit) {
+        generatorResult = this._mutableState.current = this._generator.next();
         const iteratorResult = await generatorResult;
         if (!iteratorResult.done) {
           pendings.push(iteratorResult.value);
         } else {
           break;
         }
-        generatorResult = this._mutableState.current = this._generator.next();
       }
       const { resolved, pendingsPos } = await Promise.race(
         pendings.map(async ({ result, pos }, pendingsPos) => ({

@@ -1,6 +1,6 @@
 import mapWithConcurrency from '../src/map/mapWithConcurrency';
 import { expect, assert } from 'chai';
-import { getNow, sleep, zip, range, toSleepPromiseFn } from './util';
+import { getNow, sleep, zip, range, toSleepPromiseFn, seconds } from './util';
 import { PromiseFn } from '../src/type/PromiseFn';
 describe('mapWithConcurrency', () => {
   it("should not mutate a promise's resolved value", async () => {
@@ -32,9 +32,8 @@ describe('mapWithConcurrency', () => {
 
   it('should limit concurrency to specified concurrency limit', async function () {
     // arrange
-    const seconds = (ms: number) => ms * 1000;
-    const numPromisesUnderTest = 5;
-    const taskDurationInMs = seconds(1);
+    const numPromisesUnderTest = 2;
+    const taskDurationInMs = seconds(0.1);
 
     this.timeout(taskDurationInMs * numPromisesUnderTest + seconds(1));
 
@@ -47,25 +46,20 @@ describe('mapWithConcurrency', () => {
     const promiseFns = range(numPromisesUnderTest).map(
       () => timePromiseClosure
     );
-    const expectedStartMs = getNow();
-    const expected = range(numPromisesUnderTest).map(
-      (_, i) => expectedStartMs + taskDurationInMs * i
-    );
+    const expected = numPromisesUnderTest * taskDurationInMs;
 
     // act
-    const actual = await mapWithConcurrency(promiseFns, 1);
-
-    const expectedAndActual = zip(expected, actual);
+    const [actual] = [await mapWithConcurrency(promiseFns, 1)].map(
+      (act) => Math.max(...act) - Math.min(...act) + taskDurationInMs
+    );
 
     // assert
-    expectedAndActual.forEach(([expected, actual]) =>
-      assert.closeTo(
-        actual,
-        expected,
-        delta,
-        `Differs by: ${expected - actual} ms
-        `
-      )
+    assert.closeTo(
+      actual,
+      expected,
+      delta,
+      `Differs by: ${expected - actual} ms
+      `
     );
   });
 });
