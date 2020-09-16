@@ -1,5 +1,4 @@
-import { PromiseFn } from './PromiseFn';
-import { PromisePoolResult } from './PromisePoolResult';
+import { PromiseFn, PromisePoolResult } from '../type';
 
 export default async function* <T>(
   promiseFns: PromiseFn<T>[]

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import toSlices from '../src/toSlices';
 import { range } from './util';
+import { toSlices } from '../src/util';
 
 describe('toSlices', () => {
   it('should create m partitions of n specified size', () => {

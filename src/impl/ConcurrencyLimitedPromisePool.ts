@@ -1,6 +1,5 @@
 import ConcurrencyLimitedBase from './ConcurrencyLimitedBase';
-import { PromiseFnWithIndex } from './PromiseFnWithIndex';
-import { PromisePoolResult } from './PromisePoolResult';
+import { PromisePoolResult, PromiseFnWithIndex } from '../type';
 
 export default class ConcurrencyLimitedPromisePool<
   T

@@ -1,5 +1,4 @@
-import ConcurrencyLimitedMutableState from './ConcurrencyLimitedMutableState';
-import { PromiseFnWithIndex } from './PromiseFnWithIndex';
+import { PromiseFnWithIndex, ConcurrencyLimitedMutableState } from '../type';
 
 export default abstract class ConcurrencyLimitedBase<T, TGenerated> {
   protected readonly _mutableState: ConcurrencyLimitedMutableState<TGenerated>;

@@ -1,12 +1,14 @@
-import ConcurrencyLimitedBatchGenerator from './ConcurrencyLimitedBatchGenerator';
-import { PromiseFn } from './PromiseFn';
-import mapWithConcurrency from './mapWithConcurrency';
-import ConcurrencyLimitedPromisePool from './ConcurrencyLimitedPromisePool';
-import ConcurrencyLimitedBuilder from './ConcurrencyLimitedBuilder';
+import { PromiseFn } from './type/PromiseFn';
+import mapWithConcurrency from './map/mapWithConcurrency';
+import {
+  ConcurrencyLimitedBuilder,
+  ConcurrencyLimitedBatchGenerator,
+  ConcurrencyLimitedPromisePool,
+} from './impl';
 
 const builder = <T>() => new ConcurrencyLimitedBuilder<T>();
 export default {
-  generator: (
+  batchGenerator: (
     concurrencyLimit: number
   ): (<T>(
     promiseFns: PromiseFn<T>[]

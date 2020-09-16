@@ -1,9 +1,11 @@
 import ConcurrencyLimitedBatchGenerator from './ConcurrencyLimitedBatchGenerator';
-import { PromiseFn } from './PromiseFn';
-import generateBatchesWithConcurrency from './generateBatchesWithConcurrency';
 import ConcurrencyLimitedPromisePool from './ConcurrencyLimitedPromisePool';
-import toPromiseFnWithIndex from './toPromiseFnWithIndex';
-import generateSinglePromisesWithConcurrency from './generateSinglePromisesWithConcurrency';
+import toPromiseFnWithIndex from '../util/toPromiseFnWithIndex';
+import { PromiseFn } from '../type';
+import {
+  generateBatchesWithConcurrency,
+  generateSinglePromisesWithConcurrency,
+} from '../generator';
 
 export default class ConcurrencyLimitedBuilder<T> {
   generator(

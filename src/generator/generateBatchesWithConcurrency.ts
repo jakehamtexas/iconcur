@@ -1,6 +1,5 @@
-import toSlices from './toSlices';
-import { PromiseFnResult } from './PromiseFnResult';
-import { PromiseFnWithIndex } from './PromiseFnWithIndex';
+import { PromiseFnWithIndex, PromiseFnResult } from '../type';
+import { toSlices } from '../util';
 
 export default async function* <T>(
   promiseFns: PromiseFnWithIndex<T>[],

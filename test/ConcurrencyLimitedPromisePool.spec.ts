@@ -1,7 +1,7 @@
 import { assert } from 'chai';
-import ConcurrencyLimitedBuilder from '../src/ConcurrencyLimitedBuilder';
 import { getNow, toSleepPromiseFn } from './util';
-import { PromiseFn } from '../src/PromiseFn';
+import { ConcurrencyLimitedBuilder } from '../src/impl';
+import { PromiseFn } from '../src/type/PromiseFn';
 
 describe('ConcurrencyLimitedStream', () => {
   it('should continuously replenish concurrency pool while handling a single long running promise with concurrency limit of two', async function () {

@@ -1,6 +1,6 @@
-import { PromiseFn } from './PromiseFn';
-import streamWithConcurrency from './generateBatchesWithConcurrency';
-import toPromiseFnWithIndex from './toPromiseFnWithIndex';
+import { PromiseFn } from '../type/PromiseFn';
+import streamWithConcurrency from '../generator/generateBatchesWithConcurrency';
+import toPromiseFnWithIndex from '../util/toPromiseFnWithIndex';
 
 export default async <T>(
   promiseFns: PromiseFn<T>[],

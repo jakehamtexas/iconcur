@@ -1,7 +1,7 @@
-import mapWithConcurrency from '../src/mapWithConcurrency';
+import mapWithConcurrency from '../src/map/mapWithConcurrency';
 import { expect, assert } from 'chai';
 import { getNow, sleep, zip, range, toSleepPromiseFn } from './util';
-import { PromiseFn } from '../src/PromiseFn';
+import { PromiseFn } from '../src/type/PromiseFn';
 describe('mapWithConcurrency', () => {
   it("should not mutate a promise's resolved value", async () => {
     // arrange

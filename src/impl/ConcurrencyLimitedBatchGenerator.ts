@@ -1,6 +1,5 @@
-import { PromiseFnResult } from './PromiseFnResult';
 import ConcurrencyLimitedBase from './ConcurrencyLimitedBase';
-import { PromiseFnWithIndex } from './PromiseFnWithIndex';
+import { PromiseFnResult, PromiseFnWithIndex } from '../type';
 
 export default class ConcurrencyLimitedBatchGenerator<
   T
