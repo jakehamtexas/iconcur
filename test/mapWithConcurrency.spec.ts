@@ -1,6 +1,7 @@
 import mapWithConcurrency from '../src/mapWithConcurrency';
 import { expect, assert } from 'chai';
-import { getNow, sleep, zip } from './util';
+import { getNow, sleep, zip, range, toSleepPromiseFn } from './util';
+import { PromiseFn } from '../src/PromiseFn';
 describe('mapWithConcurrency', () => {
   it("should not mutate a promise's resolved value", async () => {
     // arrange
@@ -18,12 +19,10 @@ describe('mapWithConcurrency', () => {
 
   it('should preserve order of promises', async () => {
     // arrange
-    const promise1 = Promise.resolve(0);
-    const promise2 = Promise.resolve(1);
-    const expected = [await promise1, await promise2];
-
-    const promiseFns = [() => promise1, () => promise2];
-
+    const promiseFns = range(2)
+      .map(toSleepPromiseFn)
+      .map((sleep: PromiseFn<void>, i) => () => sleep().then(() => i));
+    const expected = await Promise.all(promiseFns.map((fn) => fn()));
     // act
     const actual = await mapWithConcurrency(promiseFns);
 
@@ -45,13 +44,13 @@ describe('mapWithConcurrency', () => {
       await sleep(taskDurationInMs);
       return now;
     };
-    const promiseFns = new Array(numPromisesUnderTest)
-      .fill(null)
-      .map(() => timePromiseClosure);
+    const promiseFns = range(numPromisesUnderTest).map(
+      () => timePromiseClosure
+    );
     const expectedStartMs = getNow();
-    const expected = new Array(numPromisesUnderTest)
-      .fill(null)
-      .map((_, i) => expectedStartMs + taskDurationInMs * i);
+    const expected = range(numPromisesUnderTest).map(
+      (_, i) => expectedStartMs + taskDurationInMs * i
+    );
 
     // act
     const actual = await mapWithConcurrency(promiseFns, 1);

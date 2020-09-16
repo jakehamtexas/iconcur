@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import SimpleTest from './SimpleTest';
 import SimpleTestDictionary from './SimpleTestDictionary';
-import toPromiseFnWithIndex from '../../../src/toPromiseFnWithIndex';
+import toPromiseFnWithIndex from '../../src/toPromiseFnWithIndex';
 
 const assertion = <U>(expected: U) => ({
   assertion: (actual: U) => expect(actual).to.deep.eq(expected),

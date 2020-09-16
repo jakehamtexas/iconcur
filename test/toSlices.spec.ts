@@ -1,14 +1,15 @@
 import { expect } from 'chai';
 import toSlices from '../src/toSlices';
+import { range } from './util';
 
 describe('toSlices', () => {
   it('should create m partitions of n specified size', () => {
     // arrange
     const expected = [
-      [null, null],
-      [null, null],
+      [0, 1],
+      [2, 3],
     ];
-    const arr = new Array(4).fill(null);
+    const arr = range(4);
     // act
 
     const actual = arr.reduce(...toSlices(2));
@@ -19,10 +20,8 @@ describe('toSlices', () => {
 
   describe('should throw an exception for an invalid partition size', () => {
     it('should not be an integer', () => {
-      // arrange
-      const arr = new Array(4).fill(null);
       // act
-      const thrower = () => arr.reduce(...toSlices(1.5));
+      const thrower = () => range(4).reduce(...toSlices(1.5));
       // assert
 
       expect(thrower).to.throw(
@@ -31,10 +30,8 @@ describe('toSlices', () => {
     });
 
     it('should not be zero', () => {
-      // arrange
-      const arr = new Array(4).fill(null);
       // act
-      const thrower = () => arr.reduce(...toSlices(0));
+      const thrower = () => range(4).reduce(...toSlices(0));
       // assert
 
       expect(thrower).to.throw(
@@ -43,10 +40,8 @@ describe('toSlices', () => {
     });
 
     it('should not be negative', () => {
-      // arrange
-      const arr = new Array(4).fill(null);
       // act
-      const thrower = () => arr.reduce(...toSlices(-1));
+      const thrower = () => range(4).reduce(...toSlices(-1));
       // assert
 
       expect(thrower).to.throw(
@@ -55,11 +50,9 @@ describe('toSlices', () => {
     });
 
     it('should be a number', () => {
-      // arrange
-      const arr = new Array(4).fill(null);
       // act
       //@ts-expect-error improper input type
-      const thrower = () => arr.reduce(...toSlices('1'));
+      const thrower = () => range(4).reduce(...toSlices('1'));
       // assert
 
       expect(thrower).to.throw(
@@ -71,7 +64,7 @@ describe('toSlices', () => {
   it('should keep items in the same order after flattening', () => {
     // arrange
     const expected = [1, 2, 3, 4];
-    const arr = new Array(4).fill(null).map((_, i) => i + 1);
+    const arr = range(4).map((i) => i + 1);
     // act
 
     const actual = arr.reduce(...toSlices(2)).flat();
@@ -83,7 +76,7 @@ describe('toSlices', () => {
   it('should return a partition of all items if a larger partition size than the length of the array is selected.', () => {
     // arrange
     const expected = [[null, null, null, null]];
-    const arr = new Array(4).fill(null);
+    const arr = range(4).map(() => null);
     // act
 
     const actual = arr.reduce(...toSlices(100));
