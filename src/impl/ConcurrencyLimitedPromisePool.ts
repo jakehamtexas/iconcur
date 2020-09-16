@@ -24,6 +24,7 @@ export default class ConcurrencyLimitedPromisePool<
     const iteratorResult = await generatorResult;
     if (!iteratorResult.done) {
       pendings.push(iteratorResult.value);
+      await this._updateCounts(pendings);
     }
     while (!this._isCanceled() && resolveds.length < this._numPromises) {
       while (!this._isCanceled() && pendings.length < this._concurrencyLimit) {
@@ -31,6 +32,7 @@ export default class ConcurrencyLimitedPromisePool<
         const iteratorResult = await generatorResult;
         if (!iteratorResult.done) {
           pendings.push(iteratorResult.value);
+          await this._updateCounts([iteratorResult.value]);
         } else {
           break;
         }
@@ -60,6 +62,7 @@ export default class ConcurrencyLimitedPromisePool<
       }
       return 0;
     };
+    this._finish();
     return resolveds.sort(sortByPosition).map(({ result }) => result);
   }
 }

@@ -43,6 +43,6 @@ export default class ConcurrencyLimitedBatchGenerator<
 
   async isFinished(): Promise<boolean> {
     const result = await this._mutableState.current;
-    return !!result.done;
+    return this._isCanceled() || !!result.done;
   }
 }
