@@ -1,5 +1,5 @@
 import { PromiseFn } from '../type/PromiseFn';
-import streamWithConcurrency from '../generator/generateBatchesWithConcurrency';
+import streamWithConcurrency from '../generator/generateBatches';
 import toPromiseFnWithIndex from '../util/toPromiseFnWithIndex';
 
 export default async <T>(

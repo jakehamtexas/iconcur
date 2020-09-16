@@ -2,10 +2,7 @@ import ConcurrencyLimitedBatchGenerator from './ConcurrencyLimitedBatchGenerator
 import ConcurrencyLimitedPromisePool from './ConcurrencyLimitedPromisePool';
 import toPromiseFnWithIndex from '../util/toPromiseFnWithIndex';
 import { PromiseFn } from '../type';
-import {
-  generateBatchesWithConcurrency,
-  generateSinglePromisesWithConcurrency,
-} from '../generator';
+import { generateBatches, generateSinglePromises } from '../generator';
 
 export default class ConcurrencyLimitedBuilder<T> {
   generator(
@@ -13,7 +10,7 @@ export default class ConcurrencyLimitedBuilder<T> {
     concurrencyLimit: number
   ): ConcurrencyLimitedBatchGenerator<T> {
     const fns = promiseFns.map(toPromiseFnWithIndex);
-    const generator = generateBatchesWithConcurrency(fns, concurrencyLimit);
+    const generator = generateBatches(fns, concurrencyLimit);
     return new ConcurrencyLimitedBatchGenerator<T>(generator, fns);
   }
 
@@ -22,7 +19,7 @@ export default class ConcurrencyLimitedBuilder<T> {
     concurrencyLimit: number
   ): ConcurrencyLimitedPromisePool<T> {
     const fns = promiseFns.map(toPromiseFnWithIndex);
-    const generator = generateSinglePromisesWithConcurrency(promiseFns);
+    const generator = generateSinglePromises(promiseFns);
     return new ConcurrencyLimitedPromisePool<T>(
       generator,
       fns,

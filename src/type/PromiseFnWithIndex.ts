@@ -1,1 +1,4 @@
-export type PromiseFnWithIndex<T> = { fn: () => Promise<T>; i: number };
+export type PromiseFnWithIndex<T> = {
+  fn: () => Promise<T>;
+  i: number;
+};

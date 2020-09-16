@@ -1,7 +1,4 @@
-import generateBatchesWithConcurrency from './generateBatchesWithConcurrency';
-import generateSinglePromisesWithConcurrency from './generateSinglePromisesWithConcurrency';
+import generateBatches from './generateBatches';
+import generateSinglePromises from './generateSinglePromises';
 
-export {
-  generateBatchesWithConcurrency,
-  generateSinglePromisesWithConcurrency,
-};
+export { generateBatches, generateSinglePromises };
