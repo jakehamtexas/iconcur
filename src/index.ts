@@ -8,7 +8,7 @@ import {
 
 const builder = <T>() => new ConcurrencyLimitedBuilder<T>();
 export default {
-  batchGenerator: (
+  generator: (
     concurrencyLimit: number
   ): (<T>(
     promiseFns: PromiseFn<T>[]
@@ -23,5 +23,4 @@ export default {
     promiseFns: PromiseFn<T>[]
   ) => builder<T>().pool(promiseFns, concurrencyLimit),
 };
-
 export { mapWithConcurrency };

@@ -2,7 +2,8 @@
   "name": "iconcur",
   "version": "0.0.1",
   "description": "A lightweight library for resolving promises concurrently, with concurrency limits. I concur!",
-  "main": "src/index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "rebuild": "rm -rf dist && npm run build",
