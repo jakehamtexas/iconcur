@@ -1,7 +1,7 @@
 {
   "name": "iconcur",
   "version": "0.0.3",
-  "description": "A lightweight library for resolving promises concurrently, with concurrency limits. I concur!",
+  "description": "A no-dependency library for resolving promises with concurrency limits. I concur!",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -27,8 +27,10 @@
     "iconcur",
     "concur"
   ],
-  "author": "Jake Hamilton",
+  "author": "Jake Hamilton (https://www.jakehamtexas.net)",
   "license": "MIT",
+  "homepage": "https://github.com/jakehamtexas/iconcur",
+  "repository": "https://github.com/jakehamtexas/iconcur",
   "devDependencies": {
     "@types/chai": "^4.2.12",
     "@types/mocha": "^8.0.3",
