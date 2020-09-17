@@ -22,5 +22,5 @@ export default {
   >(
     promiseFns: PromiseFn<T>[]
   ) => builder<T>().pool(promiseFns, concurrencyLimit),
+  mapWithConcurrency,
 };
-export { mapWithConcurrency };
