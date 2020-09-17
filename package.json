@@ -7,12 +7,13 @@
     "build": "tsc",
     "rebuild": "rm -rf dist && npm run build",
     "watch": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' src/index.ts",
-    "build:publish": "npm run rebuild",
+    "build:publish": "npm run rebuild && npm run minify",
     "test": "mocha --require ts-node/register ./test/*.spec.ts",
     "eslint": "eslint '*/**/*.ts'",
     "lint": "npm run eslint -- --quiet --fix",
     "lint:ci": "npm run eslint --max-warnings=1",
-    "pretty": "prettier --write"
+    "pretty": "prettier --write",
+    "minify": "uglifyjs-folder dist -e -x .js -o dist"
   },
   "keywords": [
     "concurrency",
@@ -43,7 +44,9 @@
     "nodemon": "^2.0.4",
     "prettier": "^2.1.1",
     "ts-node": "^9.0.0",
-    "typescript": "^4.0.2"
+    "typescript": "^4.0.2",
+    "uglify-js": "^3.10.4",
+    "uglifyjs-folder": "^2.0.0"
   },
   "husky": {
     "hooks": {
