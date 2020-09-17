@@ -2,24 +2,29 @@ import { PromiseFnWithIndex, ConcurrencyLimitedMutableState } from '../type';
 
 export default abstract class ConcurrencyLimitedBase<T, TGenerated> {
   protected readonly _mutableState: ConcurrencyLimitedMutableState<TGenerated>;
-  protected readonly _generator: AsyncGenerator<TGenerated>;
 
   constructor(
     generator: AsyncGenerator<TGenerated>,
     promiseFns: PromiseFnWithIndex<T>[]
   ) {
-    this._generator = generator;
-    this._mutableState = {
-      current: generator.next(),
-      activeCount: 0,
-      pendingCount: promiseFns.length,
-      isCanceled: false,
-    };
+    this._mutableState = new ConcurrencyLimitedMutableState(
+      generator,
+      promiseFns.length
+    );
   }
 
   cancel(): void {
     this._mutableState.isCanceled = true;
   }
+
+  activeCount(): number {
+    return this._mutableState.activeCount;
+  }
+
+  pendingCount(): number {
+    return this._mutableState.pendingCount;
+  }
+
   protected _isCanceled(): boolean {
     return this._mutableState.isCanceled;
   }

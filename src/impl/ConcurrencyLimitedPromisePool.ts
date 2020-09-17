@@ -20,7 +20,7 @@ export default class ConcurrencyLimitedPromisePool<
   async all(): Promise<T[]> {
     const pendings = [];
     const resolveds = [];
-    let generatorResult = this._mutableState.current;
+    let generatorResult = this._mutableState.next();
     const iteratorResult = await generatorResult;
     if (!iteratorResult.done) {
       pendings.push(iteratorResult.value);
@@ -28,7 +28,7 @@ export default class ConcurrencyLimitedPromisePool<
     }
     while (!this._isCanceled() && resolveds.length < this._numPromises) {
       while (!this._isCanceled() && pendings.length < this._concurrencyLimit) {
-        generatorResult = this._mutableState.current = this._generator.next();
+        generatorResult = this._mutableState.next();
         const iteratorResult = await generatorResult;
         if (!iteratorResult.done) {
           pendings.push(iteratorResult.value);

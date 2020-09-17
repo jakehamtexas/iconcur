@@ -13,7 +13,7 @@ export default class ConcurrencyLimitedBatchGenerator<
 
   async all(): Promise<T[]> {
     const values = [];
-    let partition = await this._mutableState.current;
+    let partition = await this._mutableState.next();
     while (!partition.done && !this._isCanceled()) {
       const activePromises = partition.value;
 
@@ -21,16 +21,14 @@ export default class ConcurrencyLimitedBatchGenerator<
 
       values.push(activePromises);
 
-      this._mutableState.current = this._generator.next();
-      partition = await this._mutableState.current;
+      partition = await this._mutableState.next();
     }
     this._finish();
     return values.flat().map(({ result }) => result);
   }
 
   async next(): Promise<T[]> {
-    this._mutableState.current = this._generator.next();
-    const iteratorResult = await this._mutableState.current;
+    const iteratorResult = await this._mutableState.next();
     if (!iteratorResult.done) {
       const activePromises = iteratorResult.value;
       await this._updateCounts(activePromises);
